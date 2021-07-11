@@ -89,6 +89,8 @@ Allows to set the requirement of all slayers at the same time.
 
 This is expressed as `<1st Level><2nd Level><3rd Level>...` The order of the levels specified correspond to the slayer of the same position.
 
+It can also be expressed as `<Number>xp` to set a requirement of cumulative slayer xp.
+
 Index | Slayer
 -|-
 1st|Revenant Horror

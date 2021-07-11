@@ -100,20 +100,31 @@ export function parseReqs(reqs, profile) {
                     });
                 }
             } else if (['slayers', 'slayer', 'slay'].includes(req[0])) {
-                let value = '';
-                let pass = [...req[1]].every((v, i) => {
-                    let skill = Object.values(SKILLS).find(skill => skill.type === TYPE.SLAYER && skill?.position === i);
-                    let level = getLevelFromXp(getProperty(profile, skill.xpPath), skill, skill.capacity?.(profile));
-                    value += level;
-                    return v >= level;
-                });
-                result.push({
-                    pass: pass,
-                    requirement: req[1],
-                    value: value,
-                    name: 'Slayer Levels',
-                    unit: '',
-                });
+                if (req[2] === 'xp') {
+                    let total = Object.values(SKILLS).filter(skill => skill.type === TYPE.SLAYER).reduce((acc, skill) => acc + (getProperty(profile, skill.xpPath) ?? 0), 0);
+                    result.push({
+                        pass: total > req[1],
+                        requirement: req[1],
+                        value: total,
+                        name: 'Total Slayer XP',
+                        unit: 'XP',
+                    });
+                } else {
+                    let value = '';
+                    let pass = [...req[1]].reduce((acc, v, i) => {
+                        let skill = Object.values(SKILLS).find(skill => skill.type === TYPE.SLAYER && skill?.position === i);
+                        let level = getLevelFromXp(getProperty(profile, skill.xpPath), skill, skill.capacity?.(profile));
+                        value += level;
+                        return acc && level >= v;
+                    }, true);
+                    result.push({
+                        pass: pass,
+                        requirement: req[1],
+                        value: value,
+                        name: 'Slayer Levels',
+                        unit: '',
+                    });
+                }
             } else {
                 result.push({
                     pass: false,

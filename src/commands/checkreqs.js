@@ -47,8 +47,12 @@ export default async (interaction) => {
         await i.update(parseResults(player, profile, profiles, requirements));
     });
 
-    collector.on('end', async i => {
-        await interaction.editReply({ components: []});
+    collector.on('end', async () => {
+        try {
+            await interaction.editReply({ components: []});
+        } catch (err) {
+            console.error(err);
+        }
     });
 }
 

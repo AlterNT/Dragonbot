@@ -1,6 +1,10 @@
 export default {
     prefix: '&',
-    guildUUID: '5d90edb577ce8436b66ad1d2',
+
+    guild: {
+        id: '5d90edb577ce8436b66ad1d2',
+        requirements: ''
+    },
 
     mojangApi: {
         address: 'https://api.mojang.com/'

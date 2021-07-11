@@ -303,7 +303,6 @@ export const SKILLS = {
         aliases: ['revenanthorror', 'zombieslayer', 'revenant', 'reve', 'rev'],
         maxLevel: 9,
         scaling: [
-            0,
             5,
             15,
             200,
@@ -324,7 +323,6 @@ export const SKILLS = {
         aliases: ['tarantulabroodfather', 'spiderslayer', 'tarantula', 'tara', 'tar'],
         maxLevel: 9,
         scaling: [
-            0,
             5,
             25,
             200,
@@ -345,7 +343,6 @@ export const SKILLS = {
         aliases: ['svenpackmaster', 'wolfslayer', 'svenslayer', 'sven'],
         maxLevel: 9,
         scaling: [
-            0,
             10,
             30,
             250,
@@ -366,7 +363,6 @@ export const SKILLS = {
         aliases: ['voidgloomseraph', 'endermanslayer', 'emanslayer', 'enderslayer', 'voidgloom', 'void', 'eman'],
         maxLevel: 9,
         scaling: [
-            0,
             10,
             30,
             250,
