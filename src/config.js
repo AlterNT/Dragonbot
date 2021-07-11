@@ -3,7 +3,7 @@ export default {
 
     guild: {
         id: '5d90edb577ce8436b66ad1d2',
-        requirements: ''
+        requirements: 'slay 750000xp, cata 25, sa 35'
     },
 
     mojangApi: {
@@ -22,12 +22,12 @@ export default {
         },
         {
             name: 'check-requirements',
-            description: 'Checks if the specified member meets the specified reqirements.',
+            description: 'Checks if the specified player meets the specified reqirements.',
             options: [
                 {
                     name: 'name',
                     type: 'STRING',
-                    description: 'The IGN of the member.',
+                    description: 'The IGN of the player.',
                     required: true,
                 }, 
                 {
@@ -38,5 +38,17 @@ export default {
                 },
             ],
         },
+        {
+            name: 'guild-requirements',
+            description: 'Checks if the specified player meets guild requirements.',
+            options: [
+                {
+                    name: 'name',
+                    type: 'STRING',
+                    description: 'The IGN of the player.',
+                    required: true,
+                }
+            ]
+        }
     ]
 };

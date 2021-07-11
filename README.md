@@ -25,6 +25,22 @@ These are the variables required for the bot to run.
 
 A full table of all requirements and their aliases can be found [here](#requirements).
 
+### Guild Requirements
+
+    /guild-requirements <Username>
+
+- Username: The player's username.
+
+#### Output
+
+![Example Image](https://cdn.discordapp.com/attachments/679641687575887885/863742793913466910/unknown.png)
+
+#### Notes
+
+Guild requirements can be specified in [config.js](src/config.js).
+
+### More
+
     More commands to come soon!
 
 ## Requirements

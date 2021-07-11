@@ -4,6 +4,7 @@ import { Client } from 'discord.js';
 import config from './config.js';
 import checkreqs from './commands/checkreqs.js';
 import { Intents } from 'discord.js';
+import guildreqs from './commands/guildreqs.js';
 
 const client = new Client({ intents: Intents.FLAGS.GUILD_MESSAGES | Intents.FLAGS.GUILDS });
 
@@ -29,6 +30,9 @@ client.on('interactionCreate', async interaction => {
             break;
         case 'check-requirements':
             await checkreqs(interaction);
+            break;
+        case 'guild-requirements':
+            await guildreqs(interaction);
             break;
     }
 });
