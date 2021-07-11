@@ -29,7 +29,7 @@ export default {
                 {
                     name: 'requirements',
                     type: 'STRING',
-                    description: 'A comma-separated list of requirements. Ex: \'SA40, Combat 50, rev8, Mining 500000xp\'.',
+                    description: 'A comma-separated list of requirements. E.g. \'SA40, Combat 50, rev8, Mining 500000xp\'.',
                     required: true,
                 },
             ],

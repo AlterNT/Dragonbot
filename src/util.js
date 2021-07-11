@@ -81,13 +81,24 @@ export function parseReqs(reqs, profile) {
                         }
                     }
                 });
-                result.push({
-                    pass: getLevelFromXp(getProperty(profile, maxClassSkill.xpPath), maxClassSkill, maxClassSkill.capacity?.(profile)) > req[1],
-                    requirement: req[1],
-                    value: getLevelFromXp(getProperty(profile, maxClassSkill.xpPath), maxClassSkill, maxClassSkill.capacity?.(profile)),
-                    name: 'Highest Class Level (' + maxClassSkill.name + ')',
-                    unit: 'Levels',
-                });
+                let xp = getProperty(profile, maxClassSkill.xpPath);
+                if (req[2] === 'xp') {
+                    result.push({
+                        pass: xp >= req[1],
+                        requirement: req[1],
+                        value: xp,
+                        name: 'Highest Class XP (' + maxClassSkill.name + ')',
+                        unit: 'XP',
+                    });
+                } else {
+                    result.push({
+                        pass: getLevelFromXp(xp, maxClassSkill, maxClassSkill.capacity?.(profile)) >= req[1],
+                        requirement: req[1],
+                        value: getLevelFromXp(xp, maxClassSkill, maxClassSkill.capacity?.(profile)),
+                        name: 'Highest Class Level (' + maxClassSkill.name + ')',
+                        unit: 'Levels',
+                    });
+                }
             } else if (['slayers', 'slayer', 'slay'].includes(req[0])) {
                 let value = '';
                 let pass = [...req[1]].every((v, i) => {
