@@ -15,7 +15,7 @@ These are the variables required for the bot to run.
     /check-requirements <Username> <Requirements>
 
 - Username: The player's username.
-- Requirements: A comma-separated list of requirements. E.g. 'SA40, Combat 50, rev8, Mining 500000xp'.
+- Requirements: A comma-separated list of requirements. E.g. '`SA40, Combat 50, rev8, Mining 500000xp`'.
 
 #### Output
 
@@ -59,7 +59,7 @@ Voidgloom Seraph|endermanslayer, emanslayer, enderslayer, voidgloom, void, eman
 These can all be expressed in the form of `<Name><Number><XP>`. Not case-sensitive.
 - Name: Any full name or alias described in the table.
 - Number: The level/experience to check for.
-- XP - Optional: If 'XP' is present it will check for experience, rather than level.
+- XP - Optional: If 'xp' is present it will check for experience, rather than level.
 
 ### Special Requirements
 
@@ -87,7 +87,7 @@ This is expressed in the same [format](#format) as other skills.
 
 Allows to set the requirement of all slayers at the same time.
 
-This is expressed as `<First Level><Second Level><Third Level>...` The order of the levels specified correspond to the slayer of the same position.
+This is expressed as `<1st Level><2nd Level><3rd Level>...` The order of the levels specified correspond to the slayer of the same position.
 
 Index | Slayer
 -|-
