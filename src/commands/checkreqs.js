@@ -44,7 +44,11 @@ export default async (interaction) => {
 
     collector.on('collect', async i => {
         profile = profiles.find( p => p.cute_name === i.values[0]);
+        try {
         await i.update(parseResults(player, profile, profiles, requirements));
+        } catch (err) {
+            console.error(err);
+        }
     });
 
     collector.on('end', async () => {
