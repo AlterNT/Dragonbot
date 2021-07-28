@@ -1,10 +1,15 @@
 export default {
-    prefix: '&',
-
     guild: {
         id: '5d90edb577ce8436b66ad1d2',
         requirements: 'slay 750000xp, cata 25, sa 35'
     },
+
+    discord: {
+        bridgeChannel: '864813613067534366',
+        logChannel: '864806106446823445',
+    },
+
+    cacheLocation: './cache.json',
 
     mojangApi: {
         address: 'https://api.mojang.com/'
@@ -47,8 +52,20 @@ export default {
                     type: 'STRING',
                     description: 'The IGN of the player.',
                     required: true,
-                }
-            ]
-        }
-    ]
+                },
+            ],
+        },
+        {
+            name: 'verify',
+            description: 'Verifies your ingame account matches your discord account.',
+            options: [
+                {
+                    name: 'name',
+                    type: 'STRING',
+                    description: 'Your IGN.',
+                    required: true,
+                },
+            ],
+        },
+    ],
 };

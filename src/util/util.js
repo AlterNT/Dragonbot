@@ -1,4 +1,5 @@
 import gotpkg from 'got';
+import config from './config.js';
 const { get } = gotpkg;
 import { SKILLS, TYPE } from './data.js';
 
@@ -15,9 +16,13 @@ export async function fetch(api, request, params = {}) {
     try {
         return (await get(api + request + query, { responseType: 'json' })).body;
     } catch (error) {
-        console.error(error.response.body);
+        console.log(error.response.body);
     }
 };
+
+export async function getPlayerFromName(uuid) {
+    return await fetch(config.mojangApi.address, 'users/profiles/minecraft/' + uuid);
+}
 
 export function getLatestProfile(profiles, uuid) {
     return profiles?.find(p => p.members[uuid].last_save === Math.max(...profiles.map(p => p.members[uuid].last_save)));
@@ -70,17 +75,16 @@ export function parseReqs(reqs, profile) {
                     unit: '',
                 });
             } else if (['maxclass', 'class', 'clas'].includes(req[0])) {
-                let maxClassSkill = Object.values(SKILLS).reduce( (acc, skill) => {
-                    if (skill.type === TYPE.CLASS) {
-                        if (acc === null) {
-                            return skill;
-                        } else if (getProperty(profile, skill.xpPath) > getProperty(profile, acc.xpPath)) {
-                            return skill;
-                        } else {
-                            return acc;
-                        }
+                let maxClassSkill = Object.values(SKILLS).filter(s => s.type === TYPE.CLASS).reduce( (acc, skill) => {
+                    if (acc === undefined) {
+                        return skill;
+                    } else if (getProperty(profile, skill.xpPath) > getProperty(profile, acc.xpPath)) {
+                        return skill;
+                    } else {
+                        return acc;
                     }
                 });
+                console.log(maxClassSkill);
                 let xp = getProperty(profile, maxClassSkill.xpPath);
                 if (req[2] === 'xp') {
                     result.push({
