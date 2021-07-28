@@ -379,3 +379,30 @@ export const SKILLS = {
         inSkillAverage: false,
     }
 }
+
+export const RANKS = {
+    NON: {
+        color: '#555555',
+    },
+    VIP: {
+        color: '#55FF55',
+    },
+    VIPPLUS: {
+        color: '#55FF55',
+    },
+    MVP: {
+        color: '#55FFFF',
+    },
+    MVPPLUS: {
+        color: '#55FFFF',
+    },
+    MVPPLUSPLUS: {
+        color: '#FFAA00',
+    },
+    YOUTUBER: {
+        color: '#FF5555',
+    },
+    ADMIN: {
+        color: '#FF5555',
+    },
+}

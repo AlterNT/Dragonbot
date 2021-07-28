@@ -1,20 +1,16 @@
 import { MessageActionRow, MessageEmbed, MessageSelectMenu } from "discord.js";
-import config from "../config.js";
-import { parseReqs, fetch, getLatestProfile } from "../util.js"
+import config from "../util/config.js";
+import { errorEmbed } from "../util/embeds.js";
+import { parseReqs, fetch, getLatestProfile, getPlayerFromName } from "../util/util.js"
 
 export default async (interaction) => {
     interaction.defer();
 
-    let player = await fetch(config.mojangApi.address, 'users/profiles/minecraft/' + interaction.options.get('name').value);
+    let player = await getPlayerFromName(interaction.options.get('name').value);
 
     if (player === '') {
         await interaction.editReply({
-            embeds: [new MessageEmbed()
-                .setColor('#FF0000')
-                .setThumbnail('https://cdn.discordapp.com/attachments/863514657398063125/863514739119882240/robodragon.png')
-                .setTitle('Error')
-                .setDescription('`' + interaction.options.get('name').value + '`' + ' does not exist!\n Perhaps you misstyped a username?')
-            ]
+            embeds: [errorEmbed('`' + interaction.options.get('name').value + '`' + ' does not exist!\n Perhaps you misstyped a username?')]
         })
         return;
     }
@@ -23,12 +19,7 @@ export default async (interaction) => {
 
     if (profiles == null) {
         await interaction.editReply({
-            embeds: [new MessageEmbed()
-                .setColor('#FF0000')
-                .setThumbnail('https://cdn.discordapp.com/attachments/863514657398063125/863514739119882240/robodragon.png')
-                .setTitle('Error')
-                .setDescription('`' + player.name + '`' + ' has no profiles!\n Perhaps you misstyped a username?')
-            ]
+            embeds: [errorEmbed('`' + player.name + '`' + ' has no profiles!\n Perhaps you misstyped a username?')]
         })
         return;
     }
@@ -39,7 +30,7 @@ export default async (interaction) => {
 
     await interaction.editReply(parseResults(player, profile, profiles, requirements));
 
-    const filter = i => i.customId === 'selectProfileCheckReq' && i.user.id === interaction.user.id;
+    const filter = i => i.customId === 'selectProfileCheckReq';
 	const collector = interaction.channel.createMessageComponentCollector({ filter, time: 60000 });
 
     collector.on('collect', async i => {

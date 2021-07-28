@@ -1,4 +1,4 @@
-import config from "../config.js"
+import config from "../util/config.js"
 import checkreqs from "./checkreqs.js";
 
 export default async (interaction) => {
