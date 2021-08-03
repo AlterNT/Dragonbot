@@ -1,5 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
 import { promises } from 'fs';
 import { Client } from 'discord.js';
 import config from './util/config.js';
