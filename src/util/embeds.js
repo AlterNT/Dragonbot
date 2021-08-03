@@ -19,6 +19,6 @@ export function successEmbed(message) {
 export function bridgeEmbed(name, message, mcId, color) {
     return new MessageEmbed()
         .setColor(color)
-        .setDescription('**' +  name + '** > ' + message)
+        .setDescription('**' +  name + ' > **' + message)
         .setThumbnail('https://crafatar.com/avatars/' + mcId + '?overlay&size=16');
 }

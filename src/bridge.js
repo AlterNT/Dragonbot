@@ -37,7 +37,7 @@ export function startMcClient() {
     client.on('messagestr', async str => {
         if (str === 'You were spawned in Limbo.') bridgeReady = true;
 
-        //console.log(str);
+        console.log(str);
 
         if (bridgeReady) {
             mcToDiscord(str);
@@ -53,10 +53,18 @@ export function startMcClient() {
     return client;
 }
 
+var lastmessage = 0;
+const COOLDOWN = 500;
+
 export async function discordToMc(msg) {
     if (msg.channel.id === config.discord.bridgeChannel) {
         if (bridgeReady && msg.author.id !== dragonBot.discordClient.user.id && msg.cleanContent !== '') {
             if (dragonBot.cache.discordLinked.has(msg.author.tag)) {
+                if (Date.now() - lastmessage < COOLDOWN) {
+                    await sleep((lastmessage + COOLDOWN) - Date.now());
+                }
+                lastmessage = Date.now();
+
                 let mcId = dragonBot.cache.discordLinked.get(msg.author.tag);
                 let name = (await (await dragonBot.cache.getPlayer(mcId)).get(3600000)).displayname;
 
@@ -84,25 +92,18 @@ export async function discordToMc(msg) {
 
 async function mcToDiscord(msg) {
     if (msg.includes('Guild > ') && msg.includes(':')) {
-        let result = msg.match(/(?<=> .)[A-Z+]*|(?<=\[*.*\]* )\w+(?= *\[*.*\]*:)|(?<=:).+/g).map(s => s.trim());
-        let rank, ign, text;
-        if (result.length === 2) {
-            rank = 'NON';
-            [ign, text] = result;
-        } else {
-            [rank, ign, text] = result;
-        }
+        let rank = msg.slice(8, msg.indexOf(':')).match(/(?<=\[)[A-Z+]{3,5}/)?.[0] ?? 'NON';
+        let ign = msg.slice(8, msg.indexOf(':')).match(/\w*(?=.?\[?.?\]?$)/)[0];
+        let text = msg.slice(msg.indexOf(':') + 2).replace(/<*@!*[A-z0-9]+>*/g, '\*\*\*\*');
 
-        if (ign !== 'DNDI') {
-            text = text.replace(/<*@!*[A-z0-9]+>*/g, '\*\*\*\*');
-
+        if (ign != 'DNDI') {
             let player = await fetch(config.mojangApi.address, 'users/profiles/minecraft/' + ign);
 
             await dragonBot.discordClient.channels.cache.get(config.discord.bridgeChannel).send({
-                embeds: [bridgeEmbed(ign, text, player.id, RANKS[rank.replaceAll('+','PLUS')]?.color ?? '#FF0000')]
+                embeds: [bridgeEmbed(ign, text, player.id, RANKS[rank.replaceAll('+', 'PLUS')]?.color ?? '#FF0000')]
             });
             await dragonBot.discordClient.channels.cache.get(config.discord.logChannel).send({
-                embeds: [bridgeEmbed(ign, text, player.id, RANKS[rank.replaceAll('+','PLUS')]?.color ?? '#FF0000')]
+                embeds: [bridgeEmbed(ign, text, player.id, RANKS[rank.replaceAll('+', 'PLUS')]?.color ?? '#FF0000')]
             });
         }
     }

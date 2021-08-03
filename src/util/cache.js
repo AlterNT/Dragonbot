@@ -51,7 +51,7 @@ class Member {
         if (this.member?.socialMedia?.links?.DISCORD !== null) {
             dragonBot.cache.discordLinked.set(this.member.socialMedia.links.DISCORD, mcId);
         }
-        this.member.guildRank = (await fetch(config.hypixelApi.address, 'guild', { key: config.hypixelApi.key, player: mcId })).guild.members.find(p => p.uuid === mcId).rank;
+        this.member.guildRank = (await fetch(config.hypixelApi.address, 'guild', { key: config.hypixelApi.key, player: mcId }))?.guild.members.find(p => p.uuid === mcId).rank;
         for (const profileId of Object.keys(this.member.stats.SkyBlock.profiles)) {
             if (!dragonBot.cache.profiles.has(profileId)) {
                 dragonBot.cache.profiles.set(profileId, new Profile(profileId));

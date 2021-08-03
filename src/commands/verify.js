@@ -3,13 +3,23 @@ import { getPlayerFromName } from "../util/util.js";
 import { errorEmbed, successEmbed } from "../util/embeds.js";
 
 export default async (interaction) => {
-    await interaction.defer();
+    await interaction.defer({ ephemeral: true });
 
     let player = await getPlayerFromName(interaction.options.get('name').value);
 
     if (player === '') {
         await interaction.editReply({
             embeds: [errorEmbed('`' + interaction.options.get('name').value + '` does not exist!\n Perhaps you misstyped a username?')],
+            ephemeral: true,
+        })
+        return;
+    }
+
+    if (dragonBot.cache.discordLinked.has(interaction.user.tag)) {
+        let mcId = dragonBot.cache.discordLinked.get(interaction.user.tag);
+        let member = await (await dragonBot.cache.getPlayer(mcId)).get(0);
+        await interaction.editReply({
+            embeds: [successEmbed('Successfully reverified!\nYou are linked to the account `' + member.displayname + '`!')],
             ephemeral: true,
         })
         return;
