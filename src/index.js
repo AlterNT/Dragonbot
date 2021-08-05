@@ -6,7 +6,7 @@ import verify from './commands/verify.js'
 import checkreqs from './commands/checkreqs.js';
 import { Intents } from 'discord.js';
 import guildreqs from './commands/guildreqs.js';
-import { discordToMc, startMcClient } from './bridge.js';
+import { bridgeReady, discordToMc, startMcClient } from './bridge.js';
 
 class DragonBot {
 
@@ -72,6 +72,11 @@ class DragonBot {
 
     initMcClient() {
         this.mcClient = startMcClient();
+        setInterval(() => {
+            this.mcClient.quit();
+            bridgeReady = false;
+            this.mcClient = startMcClient();
+        }, config.bridge.mcTimeout);
     }
 }
 

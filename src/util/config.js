@@ -4,9 +4,10 @@ export default {
         requirements: 'slay 750000xp, cata 25, sa 35'
     },
 
-    discord: {
-        bridgeChannel: '864813613067534366',
-        logChannel: '864806106446823445',
+    bridge: {
+        mcTimeout: 1800000,
+        channel: '864813613067534366',
+        log: '864806106446823445',
     },
 
     cacheLocation: './cache.json',

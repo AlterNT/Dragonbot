@@ -57,7 +57,7 @@ var lastmessage = 0;
 const COOLDOWN = 500;
 
 export async function discordToMc(msg) {
-    if (msg.channel.id === config.discord.bridgeChannel) {
+    if (msg.channel.id === config.bridge.channel) {
         if (bridgeReady && msg.author.id !== dragonBot.discordClient.user.id && msg.cleanContent !== '') {
             if (dragonBot.cache.discordLinked.has(msg.author.tag)) {
                 if (Date.now() - lastmessage < COOLDOWN) {
@@ -76,7 +76,7 @@ export async function discordToMc(msg) {
                 await msg.channel.send({
                     embeds: [bridgeEmbed(name, text, mcId, '#9542F5')]
                 });
-                await dragonBot.discordClient.channels.cache.get(config.discord.logChannel).send({
+                await dragonBot.discordClient.channels.cache.get(config.bridge.log).send({
                     embeds: [bridgeEmbed(name, text, mcId, '#9542F5')]
                 });
             } else {
@@ -99,10 +99,10 @@ async function mcToDiscord(msg) {
         if (ign != 'DNDI') {
             let player = await fetch(config.mojangApi.address, 'users/profiles/minecraft/' + ign);
 
-            await dragonBot.discordClient.channels.cache.get(config.discord.bridgeChannel).send({
+            await dragonBot.discordClient.channels.cache.get(config.bridge.channel).send({
                 embeds: [bridgeEmbed(ign, text, player.id, RANKS[rank.replaceAll('+', 'PLUS')]?.color ?? '#FF0000')]
             });
-            await dragonBot.discordClient.channels.cache.get(config.discord.logChannel).send({
+            await dragonBot.discordClient.channels.cache.get(config.bridge.log).send({
                 embeds: [bridgeEmbed(ign, text, player.id, RANKS[rank.replaceAll('+', 'PLUS')]?.color ?? '#FF0000')]
             });
         }
