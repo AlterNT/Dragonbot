@@ -8,6 +8,9 @@ import { Intents } from 'discord.js';
 import guildreqs from './commands/guildreqs.js';
 import { bridgeReady, discordToMc, startMcClient } from './bridge.js';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 class DragonBot {
 
     static cache;
@@ -71,11 +74,11 @@ class DragonBot {
     }
 
     initMcClient() {
-        this.mcClient = startMcClient();
+        this.mcClient = startMcClient(process.env.USERNAME, process.env.PASSWORD);
         setInterval(() => {
             this.mcClient.quit();
             bridgeReady = false;
-            this.mcClient = startMcClient();
+            this.mcClient = startMcClient(process.env.USERNAME, process.env.PASSWORD);
         }, config.bridge.mcTimeout);
     }
 }

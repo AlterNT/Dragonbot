@@ -14,11 +14,11 @@ const filter = LeoProfanity
 
 export var bridgeReady = false;
 
-export function startMcClient() {
+export function startMcClient(username, password) {
     let client = mineflayer.createBot({
         host: 'mc.hypixel.net',
-        username: process.env.USERNAME,
-        password: process.env.PASSWORD,
+        username: username,
+        password: password,
         version: '1.16.5',
         auth: 'microsoft',
     });
@@ -47,7 +47,7 @@ export function startMcClient() {
     client.on('end', async () => {
         bridgeReady = false;
         await sleep(10000);
-        startMcClient();
+        startMcClient(username, password);
     });
 
     return client;
@@ -92,9 +92,20 @@ export async function discordToMc(msg) {
 
 async function mcToDiscord(msg) {
     if (msg.includes('Guild > ') && msg.includes(':')) {
-        let rank = msg.slice(8, msg.indexOf(':')).match(/(?<=\[)[A-Z+]{3,5}/)?.[0] ?? 'NON';
-        let ign = msg.slice(8, msg.indexOf(':')).match(/\w*(?=.?\[?.?\]?$)/)[0];
-        let text = msg.slice(msg.indexOf(':') + 2).replace(/<*@!*[A-z0-9]+>*/g, '\*\*\*\*');
+        let rank = 'NON', ign, text;
+
+        let identifiers = msg.slice(8, msg.indexOf(':')).replaceAll(/\[|\]/g, '').split(' ').map(s => s.trim());
+        if (identifiers.length == 1) {
+            ign = identifiers[0];
+        } else {
+            rank = identifiers[0];
+            ign = identifiers[1]
+        }
+
+        // Replace things that make discord mad.
+        text = msg.slice(msg.indexOf(':') + 2)[1];
+        text.replace(/<*@!*[A-z0-9]+>*/g, '\*\*\*\*');
+        text.replaceAll('`', '');
 
         if (ign != 'DNDI') {
             let player = await fetch(config.mojangApi.address, 'users/profiles/minecraft/' + ign);

@@ -5,7 +5,7 @@ export default {
     },
 
     bridge: {
-        mcTimeout: 1800000,
+        mcTimeout: 3600000,
         channel: '864813613067534366',
         log: '864806106446823445',
     },
