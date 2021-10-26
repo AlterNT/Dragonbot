@@ -103,7 +103,7 @@ async function mcToDiscord(msg) {
         }
 
         // Replace things that make discord mad.
-        text = msg.slice(msg.indexOf(':') + 2)[1];
+        text = msg.slice(msg.indexOf(':') + 2);
         text.replace(/<*@!*[A-z0-9]+>*/g, '\*\*\*\*');
         text.replaceAll('`', '');
 
